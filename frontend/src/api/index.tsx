@@ -1,15 +1,16 @@
 // api/index.js
 var socket = new WebSocket("ws://localhost:8080/ws");
 
-let connect = () => {
-  console.log("Attempting Connection...");
+let connect = (cb: ((arg0: MessageEvent<any>) => void)) => {
+  console.log("connecting");
 
   socket.onopen = () => {
     console.log("Successfully Connected");
   };
-  
+
   socket.onmessage = msg => {
     console.log(msg);
+    cb(msg);
   };
 
   socket.onclose = event => {
@@ -27,3 +28,4 @@ let sendMsg:any = (msg: string | ArrayBufferLike | Blob | ArrayBufferView) => {
 };
 
 export { connect, sendMsg };
+
